@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sites List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+        }
+        .header-container h1 {
+            margin: 0;
+        }
+        .form-container {
+            max-width: 800px; /* Ajuste a largura se necessário */
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .site-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .site-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .site-name {
+            font-size: 18px;
+            margin: 0;
+        }
+        .btn-url, .btn-delete {
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        .btn-url {
+            background-color: #007bff;
+        }
+        .btn-url:hover {
+            background-color: #0056b3;
+        }
+        .btn-new {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn-new:hover {
+            background-color: #218838;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+        .item-actions {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <h1>Lista de Sites</h1>
+        <a href="/new_site/" class="btn-new">Novo</a>
+    </div>
+    <div class="form-container">
+        <ul class="site-list">
+            {% for site in sites %}
+                <li class="site-item">
+                    <p class="site-name">{{ site.name }}</p>
+                    <div class="item-actions">
+                        <a href="{% if 'http://' not in site.url and 'https://' not in site.url %}http://{{ site.url }}{% else %}{{ site.url }}{% endif %}" class="btn-url" target="_blank">URL</a>
+                        <form action="{% url 'DeleteSite' site.id %}" method="post" style="margin-left: 8px;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-delete">Deletar</button>
+                        </form>
+                    </div>
+                </li>
+            {% empty %}
+                <li>Sem sites disponíveis</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
