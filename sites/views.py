@@ -11,6 +11,13 @@ class SitesListView(ListView):
     template_name = 'sites_view.html'
     context_object_name = 'sites'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('query', '')
+        if query:
+            queryset = queryset.filter(name__icontains=query)
+        return queryset
+
 
 class SitesCreateView(CreateView):
     model = Sites
