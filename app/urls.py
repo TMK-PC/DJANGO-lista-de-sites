@@ -17,10 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from sites.views import SitesListView, SitesCreateView, SitesDeleteView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sites/', SitesListView.as_view(), name='SiteView'),
     path('new_site/', SitesCreateView.as_view(), name='CreateSite'),
      path('delete_site/<int:pk>', SitesDeleteView.as_view(), name='DeleteSite'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -22,7 +22,7 @@ class SitesListView(ListView):
 class SitesCreateView(CreateView):
     model = Sites
     template_name = "create_site.html" 
-    fields = ['name', 'url',]
+    fields = ['name', 'url', 'icon',]
     success_url = '/sites/'
 
 
